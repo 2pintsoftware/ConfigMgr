@@ -14,7 +14,7 @@ Mike Terrill
     24.07.02: Added OSD Inventory for BITSACP stats and StifleR Info
     24.07.11: Added OSDStartTime and OSDFinishTime
     24.07.16: Added OSDUser, OSDJoinDomainOUName, OSDTimeZone, OSDMediaType, OSDLaunchMode, OSDWinSystemLocale
-    25.02.03: Added OSDUITime & modified OSDRunTime to subtract OSDUITime if OSDUITime exist
+    25.02.03: Added OSDBUILDMEDIA, OSDUITime & modified OSDRunTime to subtract OSDUITime if OSDUITime exist
 
 #>
 
@@ -94,6 +94,7 @@ if ($tsenv)
     #Add Build Record Info so you know which Build of OS was deployed
     $UBR = (Get-ItemPropertyValue 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' CurrentBuildNumber)+'.'+(Get-ItemPropertyValue 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' UBR)
     New-ItemProperty -Path $registryPath -Name "OSDBuild" -Value $UBR -Force
+    If ($tsenv.Value("OSDBuildMedia")) {New-ItemProperty -Path $registryPath -Name "OSDBuildMedia" -Value $tsenv.Value("OSDBuildMedia") -Force}
 
     #Add other OSD Data
     If ($tsenv.Value("BIOSPACKAGE")) {New-ItemProperty -Path $registryPath -Name "BIOSPackage" -Value $tsenv.Value("BIOSPACKAGE") -Force}
